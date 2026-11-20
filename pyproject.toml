@@ -1,7 +1,7 @@
 [project]
 name = "engl"
 version = "0.1.0"
-description = "Add your description here"
+description = "Structured English lexical and dependency records with explicit provenance."
 readme = "README.md"
 authors = [
     { name = "ellainng", email = "299958882+ellainng@users.noreply.github.com" }
@@ -15,3 +15,13 @@ engl = "engl:main"
 [build-system]
 requires = ["uv_build>=0.13.6,<0.14.0"]
 build-backend = "uv_build"
+
+[project.optional-dependencies]
+cli = ["expose-interface @ git+https://github.com/wispsy/expose_interface.git@8c71caefe67217bb6df87e280261746a3055fc86"]
+
+[project.urls]
+Source = "https://github.com/wispsy/engl"
+Project = "https://github.com/orgs/wispsy/projects/29"
+
+[tool.uv.build-backend]
+source-include = ["tests/**", "scripts/**", "IMPLEMENTATION_PLAN.md"]
