@@ -1,5 +1,8 @@
 # Engl
 
+Initial PyPI preview: **0.1.0a1**. Released behavior and current development are
+tracked in [Wispsy Releases](https://github.com/orgs/wispsy/projects/31).
+
 Independent English lexical, morphological and dependency records. Python 3.14+,
 with no model or harness dependency in the core.
 

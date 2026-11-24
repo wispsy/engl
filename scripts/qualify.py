@@ -23,6 +23,13 @@ def main():
             target = str(artifact) + (f'[{profile}]' if profile else '')
             subprocess.run(['uv', 'pip', 'install', '--python', str(python), target], check=True, cwd=outside)
             subprocess.run([str(python), '-I', '-m', 'unittest', 'discover', '-s', str(ROOT / 'tests'), '-v'], check=True, cwd=outside)
+            if profile == 'cli':
+                command=environment/('Scripts/engl.exe' if sys.platform=='win32' else 'bin/engl')
+                subprocess.run([str(command),'--help'],check=True,cwd=outside)
+                fixture=outside/'lexicon.jsonl'
+                fixture.write_text(json.dumps({'word':'star','lang_code':'en','pos':'noun','senses':[{'glosses':['qualification fixture']} ]})+'\n')
+                result=subprocess.run([str(command),'lexicon',str(fixture),'--source','qualification','--limit','1'],check=True,cwd=outside,capture_output=True,text=True)
+                if json.loads(result.stdout)['records'][0]['lemma']!='star':raise ValueError('Installed CLI result differs')
             subprocess.run(['uv', 'pip', 'check', '--python', str(python)], check=True, cwd=outside)
             print(json.dumps({'artifact': artifact.name, 'sha256': hashlib.sha256(artifact.read_bytes()).hexdigest(),
                               'profile': profile or 'base', 'python': sys.version.split()[0], 'platform': sys.platform}), flush=True)
